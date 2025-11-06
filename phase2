@@ -1,0 +1,15 @@
+
+## Phase 2: Domain Controller Configuration (DC01)
+
+- Installed **Windows Server 2022**
+- Renamed computer → `DC01`
+- Set static IP:
+  - IP: 192.168.56.10
+  - Subnet: 255.255.255.0
+  - DNS: 127.0.0.1
+- Installed and configured **Active Directory Domain Services (AD DS)**
+- Promoted to Domain Controller for domain:  
+  `myhomelab.local`
+- Restarted and verified **Administrator** domain login
+- Confirmed AD DS role in **Server Manager**
+
