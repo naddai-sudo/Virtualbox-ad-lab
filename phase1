@@ -1,0 +1,22 @@
+## Phase 1: VirtualBox Setup
+
+**Host System:** Windows 10/11  
+**Virtualization Platform:** Oracle VirtualBox
+
+### Steps
+1. Installed VirtualBox and created a **Host-Only Network**  
+   - Name: vboxnet0  
+   - IP: 192.168.56.1  
+   - DHCP: Disabled
+
+2. Created two virtual machines:
+   - **DC01** – Windows Server 2022
+   - **CLIENT01** – Windows 10/11
+
+3. Assigned network adapters:
+   - Adapter 1: Host-only Adapter (vboxnet0)
+   - Adapter 2: NAT (for internet access)
+
+
+
+  
