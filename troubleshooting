@@ -1,0 +1,131 @@
+Mistakes, Missteps & Fixes — VirtualBox AD Lab Journey
+1. Skipped ISO Selection on DC01
+
+Issue:
+When creating the Windows Server 2022 VM, I didn’t attach the ISO at first, so the VM booted to a command line with “No operating system found.”
+
+Fix:
+Recreated the VM and attached the Windows Server 2022 ISO under
+Settings → Storage → Controller: IDE → Choose a disk file.
+
+Lesson:
+Always attach the ISO before first boot so the installer runs correctly.
+
+2. Didn’t See “Network Adapter 1 and 2” Settings
+
+Issue:
+At first, I couldn’t find where to configure adapters.
+
+Fix:
+Learned they are located under
+Settings → Network in each VM.
+Adapter 1 = Host-only (for local lab network),
+Adapter 2 = NAT (for internet).
+
+Lesson:
+VirtualBox hides adapter settings per machine — configure them before installing OS to save time.
+
+3. Windows Server Setup Stuck / Finish Button Disabled
+
+Issue:
+“Finish” button was greyed out during setup.
+
+Fix:
+Adjusted Base Memory (RAM) and CPUs in the System → Motherboard / Processor section.
+VirtualBox wouldn’t continue with too little memory (had 1 GB initially; bumped to 4 GB).
+
+Lesson:
+Resource allocation directly affects installation success — 4 GB+ RAM is ideal for Server 2022.
+
+4. Missed Installing Guest Additions
+
+Issue:
+I wasn’t sure if “Guest Additions” needed to be selected before pressing Finish.
+
+Fix:
+Learned it should be installed after OS boots, from the VirtualBox top menu:
+Devices → Insert Guest Additions CD Image → Run the installer inside the guest OS.
+
+Lesson:
+Guest Additions improves resolution, clipboard sharing, and network performance.
+
+5. Network Adapter Didn’t Connect
+
+Issue:
+CLIENT01 couldn’t connect to DC01 over the Host-only network.
+
+Fix:
+Manually set static IPs:
+
+DC01 → 192.168.56.10
+
+CLIENT01 → 192.168.56.20
+
+Both on subnet 255.255.255.0
+and ensured Host-only Adapter was enabled on both.
+
+Lesson:
+Always confirm adapter type and static IPs match before testing domain joins.
+
+6. Confusion During AD DS Setup
+
+Issue:
+Didn’t see the “Promote this server to a domain controller” link after adding the AD DS role.
+
+Fix:
+Used PowerShell command:
+
+Install-ADDSForest
+
+
+to manually trigger the domain setup wizard.
+Domain successfully created as myhomelab.local.
+
+Lesson:
+Server Manager sometimes doesn’t show post-install prompts — PowerShell is a reliable fallback.
+
+7. Logged in as vboxuser Instead of Administrator
+
+Issue:
+After reboot, system logged into a local VirtualBox user, not the AD Administrator.
+
+Fix:
+Logged out and selected Other user → entered
+Administrator and my set password.
+
+Lesson:
+Post-domain promotion, you must log in with domain credentials, not the setup user.
+
+8. CLIENT01 Couldn’t Join the Domain
+
+Issue:
+When attempting to join myhomelab.local, connection failed.
+
+Fix:
+Found out I was using Windows 10/11 Home Edition, which cannot join domains.
+
+Lesson:
+Only Pro, Education, or Enterprise editions of Windows can join an Active Directory domain.
+
+9. Overlooked DHCP on Host-Only Network
+
+Issue:
+Originally thought DHCP should be left on.
+
+Fix:
+Disabled it and used static addressing (192.168.56.x range) for better control and predictability.
+
+Lesson:
+In isolated labs, static IPs make DNS and domain communication consistent.
+
+10. Didn’t Understand Where to Set Static IP Initially
+
+Issue:
+Unsure where “set static IP” was in Server 2022 interface.
+
+Fix:
+Learned to open
+Control Panel → Network and Internet → Network and Sharing Center → Change adapter settings → Ethernet → Properties → IPv4.
+
+Lesson:
+Even in Server Core-like UIs, networking is configured via Control Panel’s adapter properties.
