@@ -1,0 +1,12 @@
+## Phase 3: Client Configuration (CLIENT01)
+
+- Installed Windows 10/11 VM
+- Renamed computer → `CLIENT01`
+- Set static IP:
+  - IP: 192.168.56.20
+  - Subnet: 255.255.255.0
+  - DNS: 192.168.56.10 (DC01)
+- Verified network connectivity:
+  ```cmd
+  ping 192.168.56.10
+  ping myhomelab.local
